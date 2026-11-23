@@ -27,6 +27,17 @@ async function generateInterViewReportController(req, res) {
 
         const { selfDescription, jobDescription } = req.body;
 
+        if (
+            typeof selfDescription !== "string" ||
+            typeof jobDescription !== "string" ||
+            !selfDescription.trim() ||
+            !jobDescription.trim()
+        ) {
+            return res.status(400).json({
+                message: "Valid self-description and job description are required"
+            });
+        }
+
         const interViewReportByAi = await generateInterviewReport({
             resume: resumeContent.text,
             selfDescription,
